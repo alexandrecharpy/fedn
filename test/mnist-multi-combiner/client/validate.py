@@ -1,5 +1,5 @@
 import sys
-import tensorflow as tf 
+import tensorflow as tf
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 import tensorflow.keras as keras
 import tensorflow.keras.models as krm
@@ -10,7 +10,8 @@ from sklearn import metrics
 import numpy
 
 def validate(model,data,sample_fraction=1):
-    
+    print("validate.py:  Enter validation functionc -->")
+
     try:
         x_test, y_test, classes = read_data(data,sample_fraction=sample_fraction)
         model_score = model.evaluate(x_test, y_test, verbose=0)
@@ -21,16 +22,20 @@ def validate(model,data,sample_fraction=1):
     except Exception as e:
         print("failed to validate the model {}".format(e),flush=True)
         raise
-    
-    report = { 
+
+    report = {
                 "classification_report": clf_report,
                 "loss": model_score[0],
                 "accuracy": model_score[1]
             }
-
+    print("validate.py:  validation function completed.")
     return report
 
 if __name__ == '__main__':
+    config = tf.compat.v1.ConfigProto()
+    config.gpu_options.allow_growth = True
+    config.log_device_placement = True
+    sess = tf.compat.v1.Session(config=config)
 
     model = krm.load_model(sys.argv[1])
     report = validate(model,'../data/train.csv',sample_fraction=0.01)
