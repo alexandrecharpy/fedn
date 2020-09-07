@@ -68,6 +68,26 @@ To start training, simply click the "Start" button from the Combiner page.
 ## Where to go from here?
 Explore our other example models, or use them as templates to create your own project. 
 
+### Fork for FedBird
+
+The original project has been forked in order to customize FEDn with
+the FedBird project.  A new branch has been created: <fed_bird>.
+
+To run the server and combiner, still using the standard docker-compose
+commands:
+- docker-compose up (for the "server")
+- docker-compose -f combiner.yaml up (for the "combiner")
+- COMPOSE_API_VERSION=1.40 docker-compose -f mnist-clients.yaml up (for the clients)
+
+The latter is required if using the latest nvidia platform: Docker.io and docker-compose are not aligned.
+
+If the latter command does work, you would need to patch docker compose:
+- COMPOSE_API_VERSION=1.40 <pip install dir>/docker-compose -f mnist-clients.yaml up (for the clients)
+
+as recommanded in the following link:
+https://github.com/docker/compose/issues/6691
+
+
 ### Distributed deployment
 Documentation coming soon. 
 
